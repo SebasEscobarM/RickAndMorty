@@ -12,8 +12,9 @@ public class Node {
 	private Player rick;
 	private Player morty;
 	
-	public Node(int num) {
+	public Node(int num, boolean seed) {
 		this.num=num;
+		this.seed=seed;
 	}
 
 	public Node getNext() {
