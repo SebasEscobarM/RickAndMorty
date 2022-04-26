@@ -3,6 +3,7 @@ package main;
 import java.util.Scanner;
 
 import model.Board;
+import model.Charactr;
 
 public class Main {
 	public static Scanner rd;
@@ -25,7 +26,7 @@ public class Main {
 			rws=Integer.parseInt(rd.nextLine());
 			System.out.println("Ingrese el numero de semillas a posicionar en el tablero:");
 			seeds=Integer.parseInt(rd.nextLine());
-			if(seeds>(clmns*rws)) {
+			if(seeds>((clmns*rws)-1)) {
 				//Limpiar pantalla.
 				System.out.println("El numero de semillas no puede ser mayor al numero de casillas en el tablero, configure nuevamente.");
 				rept=true;
@@ -33,6 +34,7 @@ public class Main {
 		}while(rept);
 		brd=new Board(rws, clmns, seeds);
 		System.out.println(brd.print());
+		
 		rept=false;
 		do {
 			rept=false;
@@ -44,7 +46,20 @@ public class Main {
 				rept=true;
 			}
 		}while(rept);
+		brd.addPrtls(prtl);
+		System.out.println(brd.printPortals());
 		
+		brd.placeChrctrs(new Charactr("Rick"));
+		brd.placeChrctrs(new Charactr("Morty"));
 		
+		System.out.println("Ingrese el nickname de quien jugara como Rick:");
+		System.out.println("Si el nickname no existe se creara como nuevo jugador.");
+		String rck=rd.nextLine();
+		brd.setPlyr("Rick", rck);
+		System.out.println("Ingrese el nickname de quien jugara como Morty:");
+		System.out.println("Si el nickname no existe se creara como nuevo jugador.");
+		String mrt=rd.nextLine();
+		brd.setPlyr("Morty", mrt);
+		System.out.println(brd.print());
 	}
 }

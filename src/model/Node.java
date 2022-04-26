@@ -6,11 +6,12 @@ public class Node {
 	private Node next;
 	private Node prev;
 	private Node portal;
+	private char prtlLtr;
 	//Values
 	private int num;
 	private boolean seed;
-	private Player rick;
-	private Player morty;
+	private Charactr rick;
+	private Charactr morty;
 	
 	public Node(int num, boolean seed) {
 		this.num=num;
@@ -57,20 +58,28 @@ public class Node {
 		this.seed = seed;
 	}
 
-	public Player getRick() {
+	public Charactr getRick() {
 		return rick;
 	}
 
-	public void setRick(Player rick) {
+	public void setRick(Charactr rick) {
 		this.rick = rick;
 	}
 
-	public Player getMorty() {
+	public Charactr getMorty() {
 		return morty;
 	}
 
-	public void setMorty(Player morty) {
+	public void setMorty(Charactr morty) {
 		this.morty = morty;
+	}
+
+	public char getPrtlLtr() {
+		return prtlLtr;
+	}
+
+	public void setPrtlLtr(char prtlLtr) {
+		this.prtlLtr = prtlLtr;
 	}
 	
 	
