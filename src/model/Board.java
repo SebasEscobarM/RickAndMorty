@@ -112,10 +112,12 @@ public class Board {
 			for(int j=0;j<clmns;j++) {
 				if(nd.isSeed()) {
 					nds[j]="[ ** ]\t";
+				}else if(nd.getMorty()!=null && nd.getRick()!=null) {
+					nds[j]="[ RM ]\t";
 				}else if(nd.getMorty()!=null){
 					nds[j]="[  M ]\t";
 				}else if(nd.getRick()!=null){
-					nds[j]="[  R ]\t";
+					nds[j]="[ R  ]\t";
 				}else {
 					if(nd.getNum()<10) {
 						nds[j]="[ 0"+nd.getNum()+" ]\t";
@@ -214,5 +216,9 @@ public class Board {
 
 	public void setMorty(Node morty) {
 		this.morty = morty;
+	}
+	
+	public void minSeed() {
+		this.seeds--;
 	}
 }

@@ -14,6 +14,9 @@ public class Charactr {
 		this.totalTime=0;
 	}
 
+	public void addSeed() {
+		this.seeds++;
+	}
 	public String getName() {
 		return name;
 	}

@@ -1,7 +1,9 @@
 package main;
 
+import java.util.Random;
 import java.util.Scanner;
 
+import model.Node;
 import model.Board;
 import model.Charactr;
 
@@ -12,7 +14,164 @@ public class Main {
 		rd=new Scanner(System.in);
 		System.out.println("Configuracion previa del juego:");
 		preConfig();
+		game();
+	}
+	
+	public static void game(){
+	
+		do{
+			turn(brd.getRick());
+			if(brd.getSeeds()<=0) {
+				break;
+			}
+			turn(brd.getMorty());
+		}while(brd.getSeeds()>0);
+	}
+	
+	public static void turn(Node ply) {
+		boolean repeat=true;
+		do {
+			System.out.print("Es el turno de ");
+			if(ply.getRick()!=null) {
+				System.out.print(ply.getRick().getName());
+			}else if(ply.getMorty()!=null){
+				System.out.print(ply.getMorty().getName());
+			}
+			System.out.println("! ¿Que deseas hacer?");
+			System.out.println("\t1. Tirar dado");
+			System.out.println("\t2. Ver tablero");
+			System.out.println("\t3. Ver portales");
+			System.out.println("\t4. Marcador");
+			int menu=0;
+			boolean rptSltc=true;
+			do {
+				menu=Integer.parseInt(rd.nextLine());
+				switch(menu) {
+				case 1:
+					repeat=false;
+					rptSltc=false;
+					launchDice(ply);
+					break;
+				case 2:
+					rptSltc=false;
+					System.out.println(brd.print());
+					break;
+				case 3:
+					rptSltc=false;
+
+					System.out.println(brd.printPortals());
+					break;
+				case 4:
+					rptSltc=false;
+					scores();
+					break;
+				default:
+					rptSltc=true;
+					System.out.println("Elija una opcion valida.");
+				}
+			}while(rptSltc);
+		}while(repeat);
 		
+			
+	}
+	
+	public static void launchDice(Node nd) {
+		Random rnd=new Random();
+		int num=rnd.nextInt(5+1)+1;
+		System.out.println(brd.print());
+		System.out.println("Sacaste "+num+".");
+		System.out.println("Desesas avanzar o retroceder:");
+		System.out.println("\t1. Avanzar");
+		System.out.println("\t2. Retroceder");
+		boolean rpt=true;
+		int opt=0;
+		Charactr plyr=null;
+		boolean rck=false;
+		if(nd==brd.getRick()) {
+			rck=true;
+		}
+		if(rck) {
+			plyr=nd.getRick();
+			nd.setRick(null);
+		}else {
+			plyr=nd.getMorty();
+			nd.setMorty(null);
+		}
+		do {
+			opt=Integer.parseInt(rd.nextLine());
+			switch(opt) {
+			case 1:
+				rpt=false;
+				if(rck) {
+					for(int i=0;i<num;i++) {
+						brd.setRick(brd.getRick().getNext());
+					}
+					brd.getRick().setRick(plyr);
+				}else {
+					for(int i=0;i<num;i++) {
+					brd.setMorty(brd.getMorty().getNext());
+					}
+					brd.getMorty().setMorty(plyr);
+				}
+				break;
+			case 2:
+				rpt=false;
+				if(rck) {
+					for(int i=0;i<num;i++) {
+						brd.setRick(brd.getRick().getPrev());
+					}	
+					brd.getRick().setRick(plyr);
+				}else {
+					for(int i=0;i<num;i++) {
+					brd.setMorty(brd.getMorty().getPrev());
+					}
+					brd.getMorty().setMorty(plyr);
+				}
+				break;
+			default:
+				System.out.println("Elija una opcion valida.");
+				rpt=true;
+			}
+		}while(rpt);
+		
+		if(rck) {
+			if(brd.getRick().isSeed()) {
+				brd.getRick().setSeed(false);
+				brd.getRick().getRick().addSeed();
+				brd.minSeed();
+			}
+			if(brd.getRick().getPortal()!=null) {
+				brd.getRick().getPortal().setRick(plyr);
+				brd.getRick().setRick(null);
+				brd.setRick(brd.getRick().getPortal());
+			}
+			if(brd.getRick().isSeed()) {
+				brd.getRick().setSeed(false);
+				brd.getRick().getRick().addSeed();
+				brd.minSeed();
+			}
+		}else {
+			if(brd.getMorty().isSeed()) {
+				brd.getMorty().setSeed(false);
+				brd.getMorty().getMorty().addSeed();
+				brd.minSeed();
+			}
+			if(brd.getMorty().getPortal()!=null) {
+				brd.getMorty().getPortal().setMorty(plyr);
+				brd.getMorty().setMorty(null);
+				brd.setMorty(brd.getMorty().getPortal());
+			}
+			if(brd.getMorty().isSeed()) {
+				brd.getMorty().setSeed(false);
+				brd.getMorty().getMorty().addSeed();
+				brd.minSeed();
+			}
+		}
+	}
+	
+	public static void scores() {
+		System.out.println("Rick: "+brd.getRick().getRick().getSeeds()+" semillas.");
+		System.out.println("Morty: "+brd.getMorty().getMorty().getSeeds()+" semillas.");
 	}
 	
 	public static void preConfig() {
