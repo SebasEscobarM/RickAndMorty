@@ -106,7 +106,11 @@ public class Main {
 		}while(repeat);
 		int turnDuration= (int) ((System.currentTimeMillis()-start)/1000);
 		System.out.println(turnDuration);
-		brd.addPlayerTurnTime(ply, turnDuration);
+		if(ply.getRick()!=null) {
+			brd.getRick().getRick().addTotalTime(turnDuration);
+		}else if(ply.getMorty()!=null){
+			brd.getMorty().getMorty().addTotalTime(turnDuration);
+		}
 		
 	}
 	

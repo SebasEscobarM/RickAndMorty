@@ -218,14 +218,6 @@ public class Board {
 		}
 	}
 	
-	public void addPlayerTurnTime(Node ply, int turnTime) {
-		if(ply.getRick()!=null) {
-			ply.getRick().addTotalTime(turnTime);
-			}else if(ply.getMorty()!=null){
-			ply.getMorty().addTotalTime(turnTime);
-		}
-	}
-	
 	public int getSeeds() {
 		return seeds;
 	}

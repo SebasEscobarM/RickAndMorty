@@ -46,11 +46,12 @@ public class Charactr {
 	}
 
 	public void addTotalTime(int turnTime) {
-		this.totalTime = this.totalTime+turnTime;
+		this.totalTime += turnTime;
 	}
 	
 	public void setPlayerTotalPoints() {
-		int points= (seeds*120)-totalTime;
+		int points= seeds*120;
+		points-=totalTime;
 		plyr.setTotalPoints(points);
 	}
 	
