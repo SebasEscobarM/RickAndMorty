@@ -26,9 +26,42 @@ public class Main {
 			}
 			turn(brd.getMorty());
 		}while(brd.getSeeds()>0);
+		
+		setScores();
+		
+		end();
+	}
+	
+	public static void setScores() {
+		brd.getRick().getRick().setPlayerTotalPoints();
+		brd.getMorty().getMorty().setPlayerTotalPoints();
+	}
+	
+	public static void end() {
+		
+		System.out.println("Puntajes"
+				+ "\nRick:" + brd.getRick().getRick().getSeeds()
+				+ "\nMorty: "+ brd.getMorty().getMorty().getSeeds());
+		
+		if(brd.getMorty().getMorty().getSeeds()>brd.getRick().getRick().getSeeds()) {
+			System.out.println("El ganador es: Morty"
+					+ "\nFelictiaciones "+ brd.getMorty().getMorty().getPlyr().getUsername()
+					+ "\nGanaste "+ brd.getMorty().getMorty().getPlyr().getTotalPoints()+" puntos!");
+			
+		}
+		else if(brd.getMorty().getMorty().getSeeds()<brd.getRick().getRick().getSeeds()) {
+			System.out.println("El ganador es: Rick"
+					+ "\nFelictiaciones "+ brd.getRick().getRick().getPlyr().getUsername()
+					+ "\nGanaste "+ brd.getRick().getRick().getPlyr().getTotalPoints()+" puntos!");
+		}
+		else {
+			System.out.println("EMPATE NO HAY GANADOR");
+		}
+		
 	}
 	
 	public static void turn(Node ply) {
+		long start =System.currentTimeMillis();
 		boolean repeat=true;
 		do {
 			System.out.print("Es el turno de ");
@@ -71,8 +104,10 @@ public class Main {
 				}
 			}while(rptSltc);
 		}while(repeat);
+		int turnDuration= (int) ((System.currentTimeMillis()-start)/1000);
+		System.out.println(turnDuration);
+		brd.addPlayerTurnTime(ply, turnDuration);
 		
-			
 	}
 	
 	public static void launchDice(Node nd) {

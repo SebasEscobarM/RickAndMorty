@@ -1,5 +1,9 @@
 package model;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -34,6 +38,25 @@ public class Board {
 		for(int i=1;i<=(rws*clmns);i++){
 			add(new Node(i, sds.contains(i)));
 		}
+		
+		ArrayList<Player> players= new ArrayList<>();
+		try {
+			FileInputStream fileIn = new FileInputStream("data\\PlayerData.csv");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			Player p;
+			
+			while(true) {
+				
+				p = (Player)in.readObject();
+				players.add(p);
+				
+			}
+		}catch(EOFException e) {
+		}catch(IOException e2) {
+		}catch(ClassNotFoundException e3) {
+		}
+		
+		playrs.setPlyrs(players);
 	}
 	
 	public void add(Node nd) {
@@ -194,6 +217,15 @@ public class Board {
 			}
 		}
 	}
+	
+	public void addPlayerTurnTime(Node ply, int turnTime) {
+		if(ply.getRick()!=null) {
+			ply.getRick().addTotalTime(turnTime);
+			}else if(ply.getMorty()!=null){
+			ply.getMorty().addTotalTime(turnTime);
+		}
+	}
+	
 	public int getSeeds() {
 		return seeds;
 	}

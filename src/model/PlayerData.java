@@ -13,8 +13,21 @@ public class PlayerData {
 		}
 		return null;
 	}
+	
+	
 	public ArrayList<Player> getPlyrs(){
 		return plyrs;
+	}
+	
+	public void setPlyrs(ArrayList<Player> impPlyrs) {
+		plyrs=impPlyrs;
+	}
+	
+	
+	
+	public ArrayList<Player> getHighestPlayers(){
+		
+		return null;
 	}
 	
 }
