@@ -5,13 +5,13 @@ public class Charactr {
 	private String name;
 	private Player plyr;
 	private int seeds;
-	private int totalTime;
+	private Long totalTime;
 	
 	public Charactr(String name) {
 		this.name=name;
 		this.plyr=null;
 		this.seeds=0;
-		this.totalTime=0;
+		this.totalTime=(long) 0;
 	}
 
 	public void addSeed() {
@@ -41,12 +41,12 @@ public class Charactr {
 		this.seeds = seeds;
 	}
 
-	public int getTotalTime() {
+	public Long getTotalTime() {
 		return totalTime;
 	}
 
-	public void addTotalTime(int turnTime) {
-		this.totalTime += turnTime;
+	public void addTotalTime(Long turnDuration) {
+		this.totalTime += turnDuration;
 	}
 	
 	public void setPlayerTotalPoints() {

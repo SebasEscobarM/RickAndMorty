@@ -21,10 +21,12 @@ public class Main {
 	
 		do{
 			turn(brd.getRick());
+			brd.setRckTurn(false);
 			if(brd.getSeeds()<=0) {
 				break;
 			}
 			turn(brd.getMorty());
+			brd.setRckTurn(true);
 		}while(brd.getSeeds()>0);
 		
 		setScores();
@@ -47,16 +49,19 @@ public class Main {
 			System.out.println("El ganador es: Morty"
 					+ "\nFelictiaciones "+ brd.getMorty().getMorty().getPlyr().getUsername()
 					+ "\nGanaste "+ brd.getMorty().getMorty().getPlyr().getTotalPoints()+" puntos!");
-			
+			brd.savePlayer("M");
 		}
 		else if(brd.getMorty().getMorty().getSeeds()<brd.getRick().getRick().getSeeds()) {
 			System.out.println("El ganador es: Rick"
 					+ "\nFelictiaciones "+ brd.getRick().getRick().getPlyr().getUsername()
 					+ "\nGanaste "+ brd.getRick().getRick().getPlyr().getTotalPoints()+" puntos!");
+			brd.savePlayer("R");
 		}
 		else {
 			System.out.println("EMPATE NO HAY GANADOR");
 		}
+		
+		System.out.println(brd.getPlayrs().toString(brd.getPlayrs().getHighestPlayers()));
 		
 	}
 	
@@ -65,9 +70,9 @@ public class Main {
 		boolean repeat=true;
 		do {
 			System.out.print("Es el turno de ");
-			if(ply.getRick()!=null) {
+			if(brd.isRckTurn()==true) {
 				System.out.print(ply.getRick().getName());
-			}else if(ply.getMorty()!=null){
+			}else if(brd.isRckTurn()==false){
 				System.out.print(ply.getMorty().getName());
 			}
 			System.out.println("! ¿Que deseas hacer?");
@@ -104,11 +109,11 @@ public class Main {
 				}
 			}while(rptSltc);
 		}while(repeat);
-		int turnDuration= (int) ((System.currentTimeMillis()-start)/1000);
+		Long turnDuration= ((System.currentTimeMillis()-start)/1000);
 		System.out.println(turnDuration);
-		if(ply.getRick()!=null) {
+		if(brd.isRckTurn()) {
 			brd.getRick().getRick().addTotalTime(turnDuration);
-		}else if(ply.getMorty()!=null){
+		}else if(!brd.isRckTurn()){
 			brd.getMorty().getMorty().addTotalTime(turnDuration);
 		}
 		

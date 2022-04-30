@@ -2,8 +2,10 @@ package model;
 
 import java.io.EOFException;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,6 +20,7 @@ public class Board {
 	private Node head;
 	private Node rick;
 	private Node morty;
+	private boolean rckTurn;
 	private int seeds;
 	
 	//Methods
@@ -26,6 +29,7 @@ public class Board {
 		this.rws=rws;
 		this.clmns=clmns;
 		this.setSeeds(seeds);
+		this.rckTurn=true;
 		ArrayList<Integer> sds=new ArrayList<>();
 		Random rnd=new Random();
 		for(int i=0;i<seeds;i++) {
@@ -41,14 +45,14 @@ public class Board {
 		
 		ArrayList<Player> players= new ArrayList<>();
 		try {
-			FileInputStream fileIn = new FileInputStream("data\\PlayerData.csv");
+			FileInputStream fileIn = new FileInputStream(".\\data\\PlayerData.csv");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
-			Player p;
+			ArrayList<Player> p;
 			
 			while(true) {
 				
-				p = (Player)in.readObject();
-				players.add(p);
+				p = (ArrayList<Player>)in.readObject();
+				players.addAll(p);
 				
 			}
 		}catch(EOFException e) {
@@ -57,6 +61,7 @@ public class Board {
 		}
 		
 		playrs.setPlyrs(players);
+		playrs.bubbleSort();
 	}
 	
 	public void add(Node nd) {
@@ -202,20 +207,50 @@ public class Board {
 	}
 
 	public void setPlyr(String nm, String nickname) {
-		if(playrs.search(nickname)!=null) {
-			if(nm.equals("Rick")) {
-				rick.getRick().setPlyr(playrs.search(nickname));;
-			}else if(nm.equals("Morty")) {
-				morty.getMorty().setPlyr(playrs.search(nickname));;
-			}
-		}else {
-			playrs.getPlyrs().add(new Player(nickname));
-			if(nm.equals("Rick")) {
-				rick.getRick().setPlyr(playrs.search(nickname));;
-			}else if(nm.equals("Morty")) {
-				morty.getMorty().setPlyr(playrs.search(nickname));;
+		Player player=new Player(nickname);
+		if(nm.equals("Rick")) {
+			rick.getRick().setPlyr(player);;
+		}else if(nm.equals("Morty")) {
+			morty.getMorty().setPlyr(player);;
+		}
+	}
+	
+	public void savePlayer(String winner) {
+		
+		if (winner.equalsIgnoreCase("R")) {
+			if(playrs.search(rick.getRick().getPlyr().getUsername())!=null) {
+				int idx=playrs.getPlyrs().indexOf(playrs.search(rick.getRick().getPlyr().getUsername()));
+				rick.getRick().getPlyr().setTotalPoints(playrs.getPlyrs().get(idx).getTotalPoints());
+				playrs.getPlyrs().set(idx, rick.getRick().getPlyr());
+			}else {
+				playrs.addPlyr(rick.getRick().getPlyr());
 			}
 		}
+		else {
+			if(playrs.search(morty.getMorty().getPlyr().getUsername())!=null) {
+				int idx=playrs.getPlyrs().indexOf(playrs.search(morty.getMorty().getPlyr().getUsername()));
+				morty.getMorty().getPlyr().setTotalPoints(playrs.getPlyrs().get(idx).getTotalPoints());
+				playrs.getPlyrs().set(idx, morty.getMorty().getPlyr());
+			}else {
+				playrs.addPlyr(morty.getRick().getPlyr());
+			}
+		}
+		ArrayList<Player> playerDataAL=playrs.getPlyrs();
+		try {
+			FileOutputStream fileOut = new FileOutputStream(".\\data\\PlayerData.csv");
+			ObjectOutputStream out;
+			out = new ObjectOutputStream(fileOut);
+			out.reset();
+			
+			out.writeObject(playerDataAL);
+			
+			
+			out.close();
+			fileOut.close();	
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+		
 	}
 	
 	public int getSeeds() {
@@ -244,5 +279,21 @@ public class Board {
 	
 	public void minSeed() {
 		this.seeds--;
+	}
+
+	public boolean isRckTurn() {
+		return rckTurn;
+	}
+
+	public void setRckTurn(boolean rckTurn) {
+		this.rckTurn = rckTurn;
+	}
+
+	public PlayerData getPlayrs() {
+		return playrs;
+	}
+
+	public void setPlayrs(PlayerData playrs) {
+		this.playrs = playrs;
 	}
 }

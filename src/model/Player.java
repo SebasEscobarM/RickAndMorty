@@ -1,6 +1,8 @@
 package model;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable{
 	private String username;
 	private int totalPoints;
 	
@@ -22,6 +24,6 @@ public class Player {
 	}
 
 	public void setTotalPoints(int totalPoints) {
-		this.totalPoints = totalPoints;
+		this.totalPoints += totalPoints;
 	}
 }
