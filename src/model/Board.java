@@ -24,6 +24,7 @@ public class Board {
 	private int seeds;
 	
 	//Methods
+	@SuppressWarnings("unchecked")
 	public Board(int rws, int clmns, int seeds) {
 		this.playrs=new PlayerData();
 		this.rws=rws;

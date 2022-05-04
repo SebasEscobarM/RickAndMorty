@@ -12,7 +12,7 @@ public class Main {
 	public static Board brd;
 	public static void main(String[] args) {
 		rd=new Scanner(System.in);
-		System.out.println("Configuracion previa del juego:");
+		System.out.println("Configuración previa del juego:");
 		preConfig();
 		game();
 	}
@@ -69,7 +69,7 @@ public class Main {
 		long start =System.currentTimeMillis();
 		boolean repeat=true;
 		do {
-			System.out.print("Es el turno de ");
+			System.out.print("Es el turno de: ");
 			if(brd.isRckTurn()==true) {
 				System.out.print(ply.getRick().getName());
 			}else if(brd.isRckTurn()==false){
@@ -105,7 +105,7 @@ public class Main {
 					break;
 				default:
 					rptSltc=true;
-					System.out.println("Elija una opcion valida.");
+					System.out.println("Elija una opción valida.");
 				}
 			}while(rptSltc);
 		}while(repeat);
@@ -173,7 +173,7 @@ public class Main {
 				}
 				break;
 			default:
-				System.out.println("Elija una opcion valida.");
+				System.out.println("Elija una opción valida.");
 				rpt=true;
 			}
 		}while(rpt);
@@ -223,15 +223,15 @@ public class Main {
 		int clmns=0, rws=0, seeds=0, prtl=0;
 		do{
 			rept=false;
-			System.out.println("Ingrese el numero de columnas del tablero:");
+			System.out.println("Ingrese el número de columnas del tablero:");
 			clmns=Integer.parseInt(rd.nextLine());
-			System.out.println("Ingrese el numero de filas del tablero:");
+			System.out.println("Ingrese el número de filas del tablero:");
 			rws=Integer.parseInt(rd.nextLine());
-			System.out.println("Ingrese el numero de semillas a posicionar en el tablero:");
+			System.out.println("Ingrese el número de semillas a posicionar en el tablero:");
 			seeds=Integer.parseInt(rd.nextLine());
 			if(seeds>((clmns*rws)-1)) {
 				//Limpiar pantalla.
-				System.out.println("El numero de semillas no puede ser mayor al numero de casillas en el tablero, configure nuevamente.");
+				System.out.println("El número de semillas no puede ser mayor al número de casillas en el tablero, configure nuevamente.");
 				rept=true;
 			}
 		}while(rept);
@@ -245,7 +245,7 @@ public class Main {
 			prtl=Integer.parseInt(rd.nextLine());
 			if(prtl>((clmns*rws)/2)) {
 				//Limpiar pantalla.
-				System.out.println("El numero de portales no puede ser mayor a la mitad de casillas del tablero.");
+				System.out.println("El número de portales no puede ser mayor a la mitad de casillas del tablero.");
 				rept=true;
 			}
 		}while(rept);
@@ -255,11 +255,11 @@ public class Main {
 		brd.placeChrctrs(new Charactr("Rick"));
 		brd.placeChrctrs(new Charactr("Morty"));
 		
-		System.out.println("Ingrese el nickname de quien jugara como Rick:");
-		System.out.println("Si el nickname no existe se creara como nuevo jugador.");
+		System.out.println("Ingrese el nickname de la persona que jugará como Rick:");
+		System.out.println("Si el nickname no existe se creará como nuevo jugador.");
 		String rck=rd.nextLine();
 		brd.setPlyr("Rick", rck);
-		System.out.println("Ingrese el nickname de quien jugara como Morty:");
+		System.out.println("Ingrese el nickname de la persona que jugará como Morty:");
 		System.out.println("Si el nickname no existe se creara como nuevo jugador.");
 		String mrt=rd.nextLine();
 		brd.setPlyr("Morty", mrt);
