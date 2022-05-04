@@ -30,7 +30,7 @@ public class Main {
 		}while(brd.getSeeds()>0);
 		
 		setScores();
-		
+		brd.getPlayrs().bubbleSort();
 		end();
 	}
 	
@@ -110,7 +110,7 @@ public class Main {
 			}while(rptSltc);
 		}while(repeat);
 		Long turnDuration= ((System.currentTimeMillis()-start)/1000);
-		System.out.println(turnDuration);
+//		System.out.println(turnDuration);
 		if(brd.isRckTurn()) {
 			brd.getRick().getRick().addTotalTime(turnDuration);
 		}else if(!brd.isRckTurn()){
